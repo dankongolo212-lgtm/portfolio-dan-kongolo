@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan Kongolo — Portfolio Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* Reset & Font */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; }
+body { 
+    background-color: #eef1f8; /* Gris très clair */
+    color: #111428; /* Noir profond pour meilleure lisibilité */
+    overflow-x: hidden; 
+    line-height: 1.6;
+}
+
+h1,h2,h3,h4,h5,h6,p,a,li{color:#111428;}
+
+/* AMBIENT BACKGROUND (Style œuvre d'art + relief amélioré pour liquid glass) */
+.ambient-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(108, 160, 240, 0.30), transparent 45%),
+        radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.24), transparent 55%),
+        linear-gradient(140deg, rgba(218, 229, 255, 0.58), rgba(186, 198, 235, 0.66)),
+        linear-gradient(205deg, rgba(31, 47, 72, 0.50), rgba(44, 61, 95, 0.76));
+    background-blend-mode: screen, screen, normal, overlay;
+}
+.ambient-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 70% 80%, rgba(255,255,255,0.40), transparent 60%),
+                      repeating-radial-gradient(circle at 40% 50%, rgba(255,255,255,0.025), rgba(255,255,255,0.01) 12px, transparent 14px, rgba(255,255,255,0.03) 18px);
+    opacity: 0.7;
+    pointer-events: none;
+}
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.62;
+    animation: float 20s infinite ease-in-out alternate;
+}
+/* Orbes aux couleurs douces (Bleu ciel et Lavande) */
+.orb-1 { width: 450px; height: 450px; background: #cce0ff; top: -50px; left: -100px; }
+.orb-2 { width: 550px; height: 550px; background: #e0d4ff; bottom: -100px; right: -100px; animation-delay: -5s; }
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.1); }
+}
+
+/* APPLE LIQUID GLASS EFFECT (Adapté pour fond clair) */
+.glass {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); /* Ombre très légère */
+    border-radius: 20px;
+    padding: 24px;
+}
+
+/* NAVBAR */
+nav {
+    position: fixed; top: 15px; left: 15px; transform: none;
+    width: auto; max-width: 360px;
+    padding: 12px 20px;
+    display: flex; justify-content: flex-start; align-items: center;
+    gap: 20px;
+    z-index: 1000;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+nav h2 { font-weight: 500; font-size: 1.2rem; letter-spacing: 1px; color: #1d1d1f; }
+nav ul { display: flex; gap: 30px; list-style: none; }
+nav a { color: #86868b; text-decoration: none; transition: 0.3s; font-size: 0.9rem; font-weight: 500; }
+nav a:hover { color: #1d1d1f; }
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+}
+/* --- C'EST ICI QUE TU MODIFIES TA PHOTO --- */
+.photo {
+    width: 210px; height: 210px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    /* Remplace l'URL ci-dessous par le lien ou le chemin de ta vraie photo */
+    background: url('dan kn.jpg') center/cover;
+    border: 4px solid rgba(255,255,255,0.95);
+    box-shadow: 0 14px 42px rgba(0,0,0,0.15);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.photo:hover { transform: scale(1.08); }
+
+.hero h1 { font-size: 4rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; color: #1d1d1f; }
+.hero span { 
+    background: linear-gradient(135deg, #0071e3 0%, #4facfe 100%); 
+    -webkit-background-clip: text; color: transparent; 
+}
+.hero p { color: #86868b; font-size: 1.2rem; max-width: 500px; margin: 0 auto; font-weight: 400; }
+
+/* SECTIONS */
+section { padding: 120px 10%; max-width: 1200px; margin: 0 auto; }
+section h2 { font-size: 2.5rem; font-weight: 600; margin-bottom: 40px; text-align: center; color: #1d1d1f; }
+
+/* GRID CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.card { transition: all 0.4s ease; display: flex; flex-direction: column; gap: 10px; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 14px 46px rgba(0,0,0,0.12); }
+.card h3 { font-size: 1.3rem; font-weight: 600; color: #111428; }
+.card p { color: #3e4052; font-size: 0.95rem; font-weight: 400; }
+.badge-container { display: flex; justify-content: center; }
+.badge-img { width: 100px; height: auto; border-radius: 15px; object-fit: cover; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 8px 26px rgba(0,0,0,0.15); transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease; }
+.badge-img:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 14px 36px rgba(0,0,0,0.28); filter: brightness(1.05) saturate(1.15); }
+
+/* TAGS */
+.tags { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
+.tag { background: rgba(0, 0, 0, 0.05); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; color: #1d1d1f; font-weight: 500; }
+
+/* CONTACT */
+.contact-container { text-align: center; max-width: 600px; margin: 0 auto; }
+.contact-links { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+.detail-btn { display: inline-block; margin-top: 10px; padding: 8px 14px; border-radius: 24px; background: rgba(0,113,227,0.12); color: #0a2f5d; border: 1px solid rgba(0,113,227,0.2); }
+.detail-btn:hover { background: rgba(0,113,227,0.2); }
+.illustration-img { width: calc(50% - 12px); margin: 6px; border-radius: 12px; object-fit: cover; box-shadow: 0 8px 20px rgba(0,0,0,0.10); cursor: default; }
+#illustrations .cards { grid-template-columns: 1fr; }
+.btn {
+    padding: 12px 24px; border-radius: 30px; text-decoration: none; color: #1d1d1f;
+    background: rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    transition: 0.3s; font-size: 0.9rem; font-weight: 500;
+}
+.btn:hover { background: #fff; transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+/* CHATBOT - WIDGET STYLE */
+.chatbot-wrapper {
+    position: fixed; bottom: 30px; right: 30px;
+    z-index: 1000; display: flex; flex-direction: column; align-items: flex-end;
+}
+.chatbot-toggle {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,1);
+    backdrop-filter: blur(20px); color: #0071e3; font-size: 28px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.1); transition: 0.3s;
+}
+.chatbot-toggle:hover { transform: scale(1.05); background: #fff; }
+
+.chatbot {
+    width: 320px; margin-bottom: 15px;
+    opacity: 0; pointer-events: none; transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chatbot.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+.chatbox {
+    height: 300px; overflow-y: auto; padding: 15px; font-size: 0.9rem;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.chatbox::-webkit-scrollbar { width: 6px; }
+.chatbox::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+
+.msg { padding: 10px 14px; border-radius: 18px; max-width: 85%; line-height: 1.4; }
+.msg.bot { background: #f1f1f2; align-self: flex-start; border-bottom-left-radius: 4px; color:#1d1d1f; }
+.msg.user { background: #0071e3; align-self: flex-end; border-bottom-right-radius: 4px; color: #fff;}
+.whatsapp-action:hover { text-decoration: underline; }
+.bot-wrapper { display: flex; flex-direction: column; gap: 4px; margin-bottom: 4px; }
+.chat-input-container {
+    display: flex; padding: 10px; border-top: 1px solid rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.5); border-radius: 0 0 20px 20px;
+}
+input {
+    flex: 1; padding: 10px 15px; border: none; outline: none;
+    background: rgba(0,0,0,0.04); color: #1d1d1f; 
+    border-radius: 20px; font-family: 'Roboto', sans-serif;
+}
+input::placeholder { color: #86868b; }
+
+/* ANIMATIONS */
+.fade { opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.visible { opacity: 1; transform: translateY(0); }
+
+footer { text-align: center; padding: 40px; color: #86868b; font-size: 0.9rem; font-weight: 400; }
+
+/* RESPONSIVE MOBILE (Android / iOS) */
+@media (max-width: 768px) {
+    nav { top: 12px; padding: 12px 20px; }
+    nav ul { gap: 12px; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1rem; }
+    .photo { width: 120px; height: 120px; }
+    section { padding: 80px 6%; }
+    .cards { gap: 18px; }
+    .btn { padding: 10px 18px; font-size: 0.85rem; }
+    .chatbot-wrapper { bottom: 15px; right: 15px; }
+    .chatbot { width: 90vw; }
+}
+
+/* lightbox plein écran */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 22, 45, 0.90);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 9999;
+}
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox img {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    object-fit: contain;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+    animation: ios-bounce 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes ios-bounce {
+    0%   { transform: scale(0.55); }
+    60%  { transform: scale(1.04); }
+    80%  { transform: scale(0.98); }
+    100% { transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+</div>
+
+<nav class="glass fade visible">
+    <ul>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#education">Formation</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="hero fade visible">
+    <div class="photo"></div>
+    <h1>Dan <span>Kongolo</span></h1>
+    <p>Développeur Web Créateur d'expériences numériques de qualité superieur.</p>
+    <p style="color:#515154; max-width: 650px; margin: 0 auto;">Passionné par la création de solutions web élégantes et performantes, je transforme les idées en produits réels, du prototype à la mise en ligne.</p>
+</div>
+
+<section id="projects" class="fade">
+    <h2>Projets Réalisés</h2>
+    <div class="cards">
+        <div class="glass card">
+            <h3>L'shi Promo</h3>
+            <p>Plateforme web interactive pour mettre en valeur les offres commerciales locales.</p>
+            <div class="tags"><span class="tag">PHP</span><span class="tag">Tailwind</span><span class="tag">Full-Stack</span></div>
+            <a href="#illustrations" class="btn detail-btn" data-project="L'shi Promo">Voir illustrations</a>
+        </div>
+        <div class="glass card">
+            <h3>LubumGame</h3>
+            <p>Simulateur d'arcade dynamique reproduisant la conduite d'un taxi-bus dans la ville de lubumbashi , développé avec un moteur personnalisé.</p>
+            <div class="tags"><span class="tag">Java</span><span class="tag">LibGDX</span><span class="tag">Game Dev</span></div>
+            <a href="#illustrations" class="btn detail-btn" data-project="LubumGame">Voir illustrations</a>
+        </div>
+    </div>
+</section>
+
+<section id="illustrations" class="fade">
+    <h2>Illustrations de projets</h2>
+    <div class="cards" id="illustration-cards">
+        <div class="glass card">
+            <h3>L'shi Promo - Aperçu</h3>
+            <img src="Capture d'écran 2026-03-24 223309.png" alt="L'shi Promo 1" class="illustration-img">
+            <img src="Capture d'écran 2026-03-24 223334.png" alt="L'shi Promo 2" class="illustration-img">
+        </div>
+        <div class="glass card">
+            <h3>LubumGame - Aperçu</h3>
+            <img src="lubumgame-1.jpg" alt="LubumGame 1" class="illustration-img">
+            <img src="lubumgame-2.jpg" alt="LubumGame 2" class="illustration-img">
+        </div>
+    </div>
+</section>
+
+<section id="education" class="fade">
+    <h2>Formation & Certification</h2>
+    <div class="cards">
+        <div class="glass card">
+            <div class="badge-container">
+                <img src="badge sfo.jpeg" alt="Badge Cisco Computer Hardware" class="badge-img">
+            </div>
+            <h3>Cisco Computer Hardware Basic cours</h3>
+            <p>Installation de composants, assemblage, réparation et mises à niveau des ordinateurs (personnels et autres),
+                description des matériaux d'appareils courant et maintenance préventive,
+                explication des caractéristiques et fonctions des ordinateurs portables,
+                explication des caractéristiques et fonctions des appareils mobiles,
+                et définition des normes générales et de sécurité incendie.
+            </p>
+            <div class="tags"><span class="tag">Cisco</span><span class="tag">SFO</span><span class="tag">SORACERT</span></div>
+        </div>
+        <div class="glass card">
+            <div class="badge-container">
+                <img src="badge cybc.jpeg" alt="Badge Cisco Cybersécurité" class="badge-img">
+            </div>
+            <h3>Cisco Introduction à la cybersécurité</h3>
+            <p>Connaissance de base en cybersécurité.</p>
+            <div class="tags"><span class="tag">Cisco</span><span class="tag">CyberSécurité</span><span class="tag">CiscoNetworkingAcademy</span></div>
+        </div>
+        <div class="glass card">
+            <div class="badge-container">
+                <img src="badge OS.jpeg" alt="Badge Cisco Operating System" class="badge-img">
+            </div>
+            <h3>Cisco Operating System</h3>
+            <p>(en cours)</p>
+            <div class="tags"><span class="tag">Cisco</span><span class="tag">OS</span><span class="tag">CiscoNetworkingAcademy</span></div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="fade">
+    <h2>Démarrer un projet</h2>
+    <div class="glass card contact-container">
+        <p style="color: #515154; margin-bottom: 20px;">Ouvert aux opportunités de développement de plateformes web et d'applications à Lubumbashi et ailleurs.</p>
+        <div class="contact-links">
+            <a href="mailto:dankongolo212@gmail.com" class="btn" target="_blank">Email</a>
+            <a href="https://wa.me/243813132939" class="btn" target="_blank">WhatsApp</a>
+            <a href="https://github.com/ton-pseudo" class="btn" target="_blank">GitHub</a>
+            <a href="https://instagram.com/dk_design__01" class="btn" target="_blank">Instagram</a>
+        </div>
+    </div>
+</section>
+
+<div class="chatbot-wrapper">
+    <div class="chatbot glass" id="chatbot-window">
+        <div class="chatbox" id="chatbox">
+            <div class="msg bot">Bonjour ! Je suis l'assistant IA de Dan. Comment puis-vous aider aujourd'hui ?</div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="input" placeholder="Pose ta question...">
+        </div>
+    </div>
+    <div class="chatbot-toggle" id="chatbot-toggle">💬</div>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <img id="lightbox-img" src="" alt="Illustration agrandie">
+</div>
+
+<footer>© 2026 Dan Kongolo.</footer>
+
+<script>
+// lightbox iOS-style
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+function openLightbox(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add('active');
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    setTimeout(() => { lightboxImg.src = ''; }, 300);
+}
+
+lightbox.addEventListener('click', closeLightbox);
+
+document.querySelectorAll('.illustration-img').forEach(img => {
+    img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(img.src, img.alt);
+    });
+    img.addEventListener('transitionend', () => {
+        img.style.transform = 'scale(1)';
+    });
+    img.addEventListener('mouseover', () => {
+        img.style.transform = 'scale(1.08)';
+        img.style.zIndex = '10';
+    });
+    img.addEventListener('mouseout', () => {
+        img.style.transform = 'scale(1)';
+        img.style.zIndex = '1';
+    });
+});
+
+// GESTION DU WIDGET CHATBOT
+const chatbox = document.getElementById("chatbox");
+const chatbotWindow = document.getElementById("chatbot-window");
+const chatbotToggle = document.getElementById("chatbot-toggle");
+
+chatbotToggle.addEventListener("click", () => {
+    chatbotWindow.classList.toggle("active");
+});
+
+// INTELLIGENCE ARTIFICIELLE DU CHATBOT (Logique Regex Améliorée)
+document.getElementById("input").addEventListener("keypress", e => {
+    if(e.key === "Enter" && e.target.value.trim() !== ""){
+        let msg = e.target.value;
+        
+        // Afficher le message de l'utilisateur
+        let userDiv = document.createElement("div");
+        userDiv.className = "msg user";
+        userDiv.textContent = msg;
+        chatbox.appendChild(userDiv);
+        
+        let lowerMsg = msg.toLowerCase();
+        let reply = "Intéressant ! Dan est très occupé par le code en ce moment, mais tu peux le contacter directement via la section Contact.";
+
+        // Moteur de règles (Regex) pour rendre l'IA plus intelligente
+        if (/(bonjour|salut|coucou|hey|hello|hi)/.test(lowerMsg)) {
+            const greetings = [
+                "Salut ! Tu cherches un développeur pour un projet ou tu veux juste voir le portfolio ?",
+                "Bonjour ! Je suis l'assistant de Dan. Comment puis-je t'aider à découvrir son travail ?",
+                "Hey ! Ravi de te voir ici. Tu es intéressé par le développement web ou les jeux vidéo ?"
+            ];
+            reply = greetings[Math.floor(Math.random() * greetings.length)];
+        } 
+        else if (/(projet|l'shi|promo|lubum|jeu|taxi|portfolio|travail)/.test(lowerMsg)) {
+            const projectReplies = [
+                "Dan travaille sur des trucs lourds : L'shi Promo (une plateforme web premium) et LubumGame (un jeu Java simulant un taxi-bus). Tu veux parler de web ou de jeu ?",
+                "Ses projets phares sont L'shi Promo, une plateforme web interactive pour les offres commerciales, et LubumGame, un simulateur d'arcade. Lequel t'intéresse ?",
+                "Dan développe des solutions innovantes : sites web premium avec PHP/Tailwind et jeux vidéo en Java/LibGDX. Quel domaine te passionne ?"
+            ];
+            reply = projectReplies[Math.floor(Math.random() * projectReplies.length)];
+        } 
+        else if (/(tech|stack|langage|code|java|php|tailwind|css|html|javascript|js|full.?stack)/.test(lowerMsg)) {
+            reply = "Il maîtrise le Full-Stack web (PHP, Tailwind CSS, JavaScript) et le développement de jeux en Java avec LibGDX. Il utilise IntelliJ IDEA pour Java et VS Code pour le web.";
+        }
+        else if (/(contact|numero|email|mail|appeler|whatsapp|joindre|rejoindre)/.test(lowerMsg)) {
+            reply = "Le plus simple est d'utiliser les boutons dans la section 'Contact' juste au-dessus. Tu peux lui envoyer un mail ou un WhatsApp direct. Il répond généralement sous 24h !";
+        }
+        else if (/(prix|tarif|devis|combien|budget|coût)/.test(lowerMsg)) {
+            reply = "Pour discuter budget et devis, je te conseille d'envoyer un message directement à Dan avec les détails de ce que tu souhaites créer. Il établira un devis personnalisé.";
+        }
+        else if (/(lubumbashi|rdc|congo|ville|localisation|où)/.test(lowerMsg)) {
+            reply = "Oui, Dan est basé à Lubumbashi en RDC ! Il conçoit des solutions numériques adaptées aux besoins locaux et internationaux. Il peut travailler à distance.";
+        }
+        else if (/(expérience|cv|background|parcours|formation)/.test(lowerMsg)) {
+            reply = "Dan a une solide expérience en développement Full-Stack et en systèmes/réseaux. Il a travaillé sur des projets variés allant du web au développement de jeux vidéo.";
+        }
+        else if (/(merci|thanks|thank you)/.test(lowerMsg)) {
+            reply = "De rien ! N'hésite pas si tu as d'autres questions sur le portfolio ou les projets de Dan.";
+        }
+        else if (/(bye|au revoir|ciao|adieu)/.test(lowerMsg)) {
+            reply = "Au revoir ! N'oublie pas de jeter un œil aux projets de Dan. Bonne journée !";
+        }
+        else if (/(aide|help|\?|comment)/.test(lowerMsg)) {
+            reply = "Je peux te parler des projets de Dan, de ses compétences techniques, ou t'aider à le contacter. Essaie de demander quelque chose sur le portfolio, les technologies, ou les contacts !";
+        }
+        
+        // Simulation de délai de frappe pour plus de réalisme (variable)
+        const typingDelay = 500 + Math.random() * 800; // Entre 500ms et 1300ms
+        setTimeout(() => {
+            let botDiv = document.createElement("div");
+            botDiv.className = "msg bot";
+            botDiv.textContent = reply;
+
+            // Bouton WhatsApp pour envoyer la question+réponse à ton numéro
+            let whatsappLink = document.createElement("a");
+            const phone = "243813132939"; // Ton numéro WhatsApp avec indicatif
+            const message = `Question : ${msg}\nRéponse : ${reply}`;
+            whatsappLink.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            whatsappLink.target = "_blank";
+            whatsappLink.rel = "noopener noreferrer";
+            whatsappLink.textContent = "Envoyer sur WhatsApp";
+            whatsappLink.className = "whatsapp-action";
+            whatsappLink.style = "display:inline-block; margin-top:8px; font-size:0.75rem; color:#0a8f42; text-decoration:none; font-weight:600;";
+
+            let botWrapper = document.createElement("div");
+            botWrapper.className = "bot-wrapper";
+            botWrapper.appendChild(botDiv);
+            botWrapper.appendChild(whatsappLink);
+
+            chatbox.appendChild(botWrapper);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }, typingDelay);
+        
+        e.target.value = "";
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+});
+
+// ANIMATION AU SCROLL
+const elements = document.querySelectorAll(".fade");
+const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+        }
+    });
+}, { threshold: 0.1 });
+
+elements.forEach(el => {
+    scrollObserver.observe(el);
+});
+</script>
+
+</body>
+</html>
